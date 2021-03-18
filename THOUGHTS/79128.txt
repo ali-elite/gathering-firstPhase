@@ -1,0 +1,27 @@
+{
+  "user": 123,
+  "doed": 0,
+  "type": "t",
+  "likes": 0,
+  "spamReports": 0,
+  "text": "chekeram",
+  "opinions": [],
+  "likers": [],
+  "rethoughters": [],
+  "localDateTime": {
+    "date": {
+      "year": 2021,
+      "month": 3,
+      "day": 18
+    },
+    "time": {
+      "hour": 12,
+      "minute": 14,
+      "second": 26,
+      "nano": 225000000
+    }
+  },
+  "rethought": 0,
+  "id": 79128,
+  "tAddress": "./THOUGHTS/"
+}
