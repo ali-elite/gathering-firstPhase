@@ -52,6 +52,7 @@ public class PersonalMenu extends Menu {
 
                 while (!isValidTweet(answer)) {
                     System.out.println(ConsoleColors.RED_BOLD_BRIGHT + "your thought is too long to share." + "\n" + "try again" + ConsoleColors.RESET);
+                   logger.info(user.getId() + " wanted to create a long thought");
                     answer = userAns(scanner);
                 }
 
@@ -66,9 +67,11 @@ public class PersonalMenu extends Menu {
 
 
                 System.out.println(ConsoleColors.BLUE_BOLD_BRIGHT + "Thought has been Created Successfully!" + ConsoleColors.RESET);
+                logger.info("user " + user.getId() + " made thought " + thought.getId());
 
                 user.saveUser();
                 user = user.loadUser();
+
                 this.parentMenu.show();
                 this.parentMenu.execute();
             }
@@ -133,6 +136,7 @@ public class PersonalMenu extends Menu {
 
                 while (!blockedExistence(userCheck)) {
                     System.out.println(ConsoleColors.RED_BOLD_BRIGHT + "user does not exists" + "\n" + "try again" + ConsoleColors.RESET);
+                    logger.error("user " + user.getId() + "wanted to block a user who did not exist");
                     userCheck = userAns(scanner);
                 }
 
@@ -149,6 +153,7 @@ public class PersonalMenu extends Menu {
                 User blocked = gson.fromJson(str, User.class);
                 user.getBlackList().remove((Integer) blocked.getId());
                 System.out.println(ConsoleColors.BLUE_BOLD_BRIGHT + "User Unblocked Successfully!" + ConsoleColors.RESET);
+                logger.info("user " + user.getId() + " unblocked " + blocked.getId());
 
                 user.saveUser();
                 user = user.loadUser();

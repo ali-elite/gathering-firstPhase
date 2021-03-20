@@ -70,6 +70,7 @@ public class Followers extends Menu {
 
         while (!followerExistence(userCheck)) {
             System.out.println(ConsoleColors.RED_BOLD_BRIGHT + "user does not exists" + "\n" + "try again" + ConsoleColors.RESET);
+            logger.error("user " + user.getId() + "wanted to choose a follower who doesn't exists");
             userCheck = userAns(scanner);
             if (userCheck.equalsIgnoreCase("back")) {
                 this.parentMenu.show();
@@ -96,6 +97,7 @@ public class Followers extends Menu {
 
         if (!follower.isActive()) {
             System.out.println(ir.sharif.ap2021.View.ConsoleColors.RED_BOLD_BRIGHT + "User is deactivated" + "\n" + "returning to the personal page" + ir.sharif.ap2021.View.ConsoleColors.RESET);
+            logger.info("user " + user.getId() + "choose to visit a deactive user profile");
 
             this.parentMenu.show();
             this.parentMenu.execute();
@@ -103,6 +105,7 @@ public class Followers extends Menu {
 
         if (follower.getBlackList().contains(user.getId())) {
             System.out.println(ConsoleColors.RED_BOLD_BRIGHT + "Sorry This User Has Blocked You!" + ConsoleColors.RESET);
+            logger.info("user " + user.getId() + "choose to visit a deactive user profile");
             this.parentMenu.show();
             this.parentMenu.execute();
         }
@@ -183,6 +186,7 @@ public class Followers extends Menu {
 
                 if (!user.getFollowings().contains(follower.getId())) {
                     System.out.println(ConsoleColors.RED_BOLD_BRIGHT + "You aren't Following This User. Follow him/her first" + ConsoleColors.RESET);
+                    logger.info("user " + user.getId() + " was trying to message a non following user");
                     this.parentMenu.show();
                     this.parentMenu.execute();
                 }
@@ -211,6 +215,7 @@ public class Followers extends Menu {
 
                 while (!isValidMessage(answer)) {
                     System.out.println(ConsoleColors.RED_BOLD_BRIGHT + "your thought is too long to share." + "\n" + "try again" + ConsoleColors.RESET);
+                    logger.error("user " + user.getId() + " was creating a long thought to share");
                     answer = userAns(scanner);
                 }
 
@@ -239,12 +244,14 @@ public class Followers extends Menu {
 
                 if (follower.getId() == user.getId()) {
                     System.out.println(ConsoleColors.RED_BOLD_BRIGHT + "You Cant Follow Yourself" + ConsoleColors.RESET);
+                    logger.error("user " + user.getId() + " wanted to follow him/her self");
                     this.parentMenu.show();
                     this.parentMenu.execute();
                 }
 
                 if (user.getBlackList().contains(follower.getId())) {
                     System.out.println(ConsoleColors.RED_BOLD_BRIGHT + "You Have Blocked This User. Unblock him/her First" + ConsoleColors.RESET);
+                    logger.error("user " + user.getId() + " wanted to follow a blocked user");
                     this.parentMenu.show();
                     this.parentMenu.execute();
                 }
@@ -260,6 +267,7 @@ public class Followers extends Menu {
                     user.getFollowings().remove(user.getFollowings().indexOf(follower.getId()));
                     follower.getFollowers().remove(follower.getFollowers().indexOf(user.getId()));
                     System.out.println(ConsoleColors.BLUE_BOLD_BRIGHT + "User unfollowed Successfully!" + ConsoleColors.RESET);
+
 
                     follower.getSystemMessages().add(new SystemMessage(follower, user.getUserName() + " unfollowed you!"));
                     user.getSystemMessages().add(new SystemMessage(user, "you have unfollowed " + follower.getUserName()));
@@ -439,6 +447,7 @@ public class Followers extends Menu {
             User fUser = gson.fromJson(str, User.class);
 
             if (fUser.getId() == ID) {
+                logger.info("user " +ID + " file loaded");
                 return fUser;
             }
 

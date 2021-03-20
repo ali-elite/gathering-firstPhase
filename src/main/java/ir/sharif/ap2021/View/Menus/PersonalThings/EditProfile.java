@@ -30,6 +30,7 @@ public class EditProfile extends Menu {
         this.setSubmenus(submenus);
     }
 
+    //log every action here
     protected Menu getFirstName() {
         return new Menu("Edit First Name", this) {
             @Override
@@ -45,6 +46,7 @@ public class EditProfile extends Menu {
                 String answer1 = userAns(scanner);
                 user.setFirstName(answer1);
                 System.out.println(ConsoleColors.BLUE_BOLD_BRIGHT + "FirstName Changed Successfully!" + ConsoleColors.RESET);
+                logger.info("user " + user.getId() + " changed his/her firstname to " + answer1);
 
                 user.saveUser();
                 user = user.loadUser();
@@ -69,6 +71,7 @@ public class EditProfile extends Menu {
                 String answer1 = userAns(scanner);
                 user.setLastName(answer1);
                 System.out.println(ConsoleColors.BLUE_BOLD_BRIGHT + "LastName Changed Successfully!" + ConsoleColors.RESET);
+                logger.info("user " + user.getId() + " changed his/her lastname to " + answer1);
 
                 user.saveUser();
                 user = user.loadUser();
@@ -93,15 +96,15 @@ public class EditProfile extends Menu {
                 String answer1 = userAns(scanner);
                 while (new LogicalAgent().fileSearch(answer1)) {
                     System.out.println(ConsoleColors.RED_BOLD_BRIGHT + "user already exists!" + "\n" + "try again" + ConsoleColors.RESET);
+                    logger.error("user " + user.getId() + " wanted to change username to a username which already exist");
                     answer1 = userAns(scanner);
                 }
-
 
 
                 File myUsername = new File("./USERS/" + user.getUserName() + ".txt");
                 Path source = Paths.get("./USERS/" + user.getUserName() + ".txt");
 
-                try{
+                try {
                     Files.move(source, source.resolveSibling(answer1 + ".txt"));
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -110,6 +113,8 @@ public class EditProfile extends Menu {
                 user.setUserName(answer1);
 
                 System.out.println(ConsoleColors.BLUE_BOLD_BRIGHT + "UserName Changed Successfully!" + ConsoleColors.RESET);
+
+                logger.info("user " + user.getId() + " changed his/her username to " + answer1);
 
                 user.saveUser();
                 user = user.loadUser();
@@ -134,6 +139,7 @@ public class EditProfile extends Menu {
                 String answer1 = userAns(scanner);
                 user.setBiography(answer1);
                 System.out.println(ConsoleColors.BLUE_BOLD_BRIGHT + "Biography Changed Successfully!" + ConsoleColors.RESET);
+                logger.info("user " + user.getId() + " changed his/her bigoraphy to " + answer1);
 
                 user.saveUser();
                 user = user.loadUser();
@@ -159,6 +165,7 @@ public class EditProfile extends Menu {
 
                 while (!isValidDay(answer1)) {
                     System.out.println(ConsoleColors.RED_BOLD_BRIGHT + "invalid answer!" + "\n" + "try again" + ConsoleColors.RESET);
+                    logger.error("user " + user.getId() + " entered invalid day for birthday date");
                     answer1 = userAns(scanner);
                 }
                 String day = answer1;
@@ -170,6 +177,7 @@ public class EditProfile extends Menu {
 
                 while (!isValidDay(answer1)) {
                     System.out.println(ConsoleColors.RED_BOLD_BRIGHT + "invalid answer!" + "\n" + "try again" + ConsoleColors.RESET);
+                    logger.error("user " + user.getId() + " entered invalid day for birthday date");
                     answer1 = userAns(scanner);
                 }
                 String month = answer1;
@@ -188,6 +196,7 @@ public class EditProfile extends Menu {
                 user.setBirthday(birthday);
 
                 System.out.println(ConsoleColors.BLUE_BOLD_BRIGHT + "Birthday Changed Successfully!" + ConsoleColors.RESET);
+                logger.info("user " + user.getId() + " changed his/her birthday to " + answer1);
 
                 user.saveUser();
                 user = user.loadUser();
@@ -213,9 +222,11 @@ public class EditProfile extends Menu {
 
                 while (!isValidPhone(answer1)) {
                     System.out.println(ConsoleColors.RED_BOLD_BRIGHT + "invalid answer!" + "\n" + "try again" + ConsoleColors.RESET);
+                    logger.error("user " + user.getId() + " entered invalid phone number");
                     answer1 = userAns(scanner);
                 }
                 user.setPhoneNumber(answer1);
+                logger.info("user " + user.getId() + " changed his/her phone number to " + answer1);
 
                 System.out.println(ConsoleColors.BLUE_BOLD_BRIGHT + "Phone Number Changed Successfully!" + ConsoleColors.RESET);
 
@@ -243,10 +254,11 @@ public class EditProfile extends Menu {
 
                 while (!isValidEmail(answer1)) {
                     System.out.println(ConsoleColors.RED_BOLD_BRIGHT + "invalid answer!" + "\n" + "try again" + ConsoleColors.RESET);
+                    logger.error("user " + user.getId() + " entered invalid email address");
                     answer1 = userAns(scanner);
                 }
                 user.setEmail(answer1);
-
+                logger.info("user " + user.getId() + " changed his/her email address to " + answer1);
                 System.out.println(ConsoleColors.BLUE_BOLD_BRIGHT + "Email Address Changed Successfully!" + ConsoleColors.RESET);
 
                 user.saveUser();
@@ -278,11 +290,12 @@ public class EditProfile extends Menu {
 
                 while (!answer1.equals(pass)) {
                     System.out.println(ConsoleColors.RED_BOLD_BRIGHT + "incorrect repeat" + "\n" + "try again" + ConsoleColors.RESET);
+                    logger.error("user " + user.getId() + " has failed in repeating password");
                     answer1 = userAns(scanner);
                 }
 
                 user.setPassword(answer1);
-
+                logger.info("user " + user.getId() + " changed his/her password to " + answer1);
                 System.out.println(ConsoleColors.BLUE_BOLD_BRIGHT + "Password Changed Successfully!" + ConsoleColors.RESET);
 
                 user.saveUser();

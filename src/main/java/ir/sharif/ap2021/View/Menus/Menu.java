@@ -1,7 +1,11 @@
 package ir.sharif.ap2021.View.Menus;
 
+import ir.sharif.ap2021.Client;
 import ir.sharif.ap2021.Model.UserThings.User;
 import ir.sharif.ap2021.View.ConsoleColors;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,6 +16,7 @@ public abstract class Menu {
     protected HashMap<Integer, Menu> submenus;
     protected Menu parentMenu;
     public static Scanner scanner;
+    protected static final Logger logger = LogManager.getLogger(Menu.class);
     protected static User user;
     protected static ArrayList<Menu> allMenus;
 
@@ -53,8 +58,8 @@ public abstract class Menu {
         this.submenus = submenus;
     }
 
-
     public void show() {
+
         System.out.println(ConsoleColors.PURPLE_BOLD_BRIGHT + this.name + ":" + ConsoleColors.RESET);
         for (Integer menuNum : submenus.keySet()) {
             System.out.println(ConsoleColors.CYAN_BOLD_BRIGHT + menuNum + ". " + submenus.get(menuNum).getName() + ConsoleColors.RESET);
@@ -65,11 +70,9 @@ public abstract class Menu {
             System.out.println(ConsoleColors.CYAN_BOLD_BRIGHT + (submenus.size() + 1) + ". Exit" + ConsoleColors.RESET);
     }
 
-
     public void execute() {
         Menu nextMenu = null;
 
-//        int chosenMenu = Integer.parseInt(scanner.nextLine());
         String chosenMenuString = userAns(scanner);
 
         while (!validOption(chosenMenuString)) {
@@ -79,9 +82,10 @@ public abstract class Menu {
 
         int chosenMenu = Integer.parseInt(chosenMenuString);
         if (chosenMenu == submenus.size() + 1) {
-            if (this.parentMenu == null)
+            if (this.parentMenu == null) {
+                logger.info("user " + user.getId() + " closed the app");
                 System.exit(1);
-            else
+            } else
                 nextMenu = this.parentMenu;
         } else
             nextMenu = submenus.get(chosenMenu);
@@ -89,7 +93,7 @@ public abstract class Menu {
         user.saveUser();
 
 
-        nextMenu.setUser(user.loadUser());
+        setUser(user.loadUser());
         nextMenu.show();
         nextMenu.execute();
     }
@@ -101,6 +105,7 @@ public abstract class Menu {
         if (s.equals("exit")) {
             user.saveUser();
             System.out.println("bye!");
+            logger.info("user " + user.getId() + " closed the app");
             System.exit(0);
         }
         return s;
@@ -114,6 +119,6 @@ public abstract class Menu {
             }
         }
 
-        return Integer.parseInt(s) <= submenus.size() + 1 ;
+        return Integer.parseInt(s) <= submenus.size() + 1;
     }
 }

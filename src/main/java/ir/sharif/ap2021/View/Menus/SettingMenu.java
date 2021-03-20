@@ -28,6 +28,7 @@ public class SettingMenu extends Menu {
             @Override
             public void execute() {
 
+                logger.info("user " + user.getId() + " deleted by order of the user");
                 user.getUserFile().delete();
                 System.out.println(ConsoleColors.BLUE_BOLD_BRIGHT + "User Deleted Successfully! Hope To see you again here *tears*" + ConsoleColors.RESET);
 
@@ -51,14 +52,13 @@ public class SettingMenu extends Menu {
             @Override
             public void execute() {
 
+                logger.info("user " + user.getId() + " logged out from the app");
                 LogicalAgent logicalAgent = new LogicalAgent();
                 logicalAgent.run();
 
             }
         };
     }
-
-
 
 
 }

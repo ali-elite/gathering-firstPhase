@@ -434,6 +434,7 @@ public class Followings extends Menu {
             User fUser = gson.fromJson(str, User.class);
 
             if (fUser.getId() == ID) {
+                logger.info("user " +ID + " file loaded");
                 return fUser;
             }
 

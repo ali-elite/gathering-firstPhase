@@ -8,6 +8,8 @@ import ir.sharif.ap2021.Model.News.SystemMessageThings.SystemMessage;
 import ir.sharif.ap2021.Model.ThoughtThings.Thought;
 import ir.sharif.ap2021.View.Menus.Menu;
 import org.apache.commons.io.FileUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -49,6 +51,7 @@ public class User {
     private final ArrayList<ChatScreen> chatScreens;
     public String userAddress = "./USERS/";
     private File userFile;
+    protected static final Logger logger = LogManager.getLogger(User.class);
 
 
     public User(String firstName, String lastName, String userName, String email, String password) {
@@ -280,6 +283,7 @@ public class User {
             e.printStackTrace();
         }
 
+        logger.info("user " + id + "saved as a json file");
 
     }
 
@@ -316,8 +320,10 @@ public class User {
         Gson gson = new Gson();
         User user = gson.fromJson(str, User.class);
 
+        logger.info("user " + id + "loaded from a json file");
 
         return user;
+
     }
 
     public static User findUser(int ID) {
@@ -338,10 +344,12 @@ public class User {
             User fUser = gson.fromJson(str, User.class);
 
             if (fUser.getId() == ID) {
+                logger.info("user " + fUser.getId() + " file founded and opened ");
                 return fUser;
             }
 
         }
+
         return null;
     }
 

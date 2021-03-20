@@ -2,11 +2,14 @@ package ir.sharif.ap2021.Controller;
 
 import com.google.gson.Gson;
 
+import ir.sharif.ap2021.Client;
 import ir.sharif.ap2021.View.Menus.MainMenu;
 import ir.sharif.ap2021.View.Menus.Menu;
 import ir.sharif.ap2021.View.ConsoleColors;
 import ir.sharif.ap2021.Model.UserThings.User;
 import org.apache.commons.io.FileUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 
 import java.io.File;
@@ -20,9 +23,7 @@ public class LogicalAgent {
 
     public static File userDirectory = new File("./USERS/");
     public static File thoughtDirectory = new File("./THOUGHTS/");
-
-
-
+    private static final Logger logger = LogManager.getLogger(LogicalAgent.class);
 
 
     public LogicalAgent() {
@@ -46,13 +47,14 @@ public class LogicalAgent {
             answer = userAns(scanner);
         }
 
-
+        //  Login
         if (answer.equals("1")) {
             System.out.println(ConsoleColors.YELLOW_BOLD_BRIGHT + "Cool! May i know your username?" + ConsoleColors.RESET);
             answer = userAns(scanner);
 
             while (!fileSearch(answer)) {
                 System.out.println(ConsoleColors.RED_BOLD_BRIGHT + "Sorry we do not recognize your username" + "\n" + "try again" + ConsoleColors.RESET);
+               logger.error("user typed invalid username");
                 answer = userAns(scanner);
             }
 
@@ -72,18 +74,18 @@ public class LogicalAgent {
 
             Gson gson = new Gson();
             User user = gson.fromJson(str, User.class);
-//            user = user.loadUser();
 
 
             while (!answer.equals(user.getPassword())) {
                 System.out.println(ConsoleColors.RED_BOLD_BRIGHT + "Wrong Password!" + "\n" + "try again" + ConsoleColors.RESET);
+                logger.error(user.getId() + " entered wrong answer");
                 answer = userAns(scanner);
             }
 
             System.out.println(ConsoleColors.BLUE_BOLD_BRIGHT + "Logged in Successfully" + ConsoleColors.RESET);
 
 
-
+            logger.info("user "+ user.getId() + " logged in");
 
             Menu.setScanner(scanner);
             Menu.setUser(user);
@@ -91,6 +93,8 @@ public class LogicalAgent {
             currentMenu.show();
             currentMenu.execute();
 
+
+            // Sign Up
         } else if (answer.equals("2")) {
 
             System.out.println(ConsoleColors.YELLOW_BOLD_BRIGHT + "So we want to introduce you to the others in the party." + ConsoleColors.RESET);
@@ -107,12 +111,14 @@ public class LogicalAgent {
 
             while (answer.equalsIgnoreCase("back")) {
                 System.out.println(ConsoleColors.RED_BOLD_BRIGHT + "Sorry This username cannot be Created!" + "\n" + "try again" + ConsoleColors.RESET);
+                logger.error("user wanted to tack the word 'back' as username");
                 answer = userAns(scanner);
 
             }
 
             while (fileSearch(answer)) {
                 System.out.println(ConsoleColors.RED_BOLD_BRIGHT + "user already exists!" + "\n" + "try again" + ConsoleColors.RESET);
+                logger.error("user typed a taken username");
                 answer = userAns(scanner);
             }
 
@@ -127,6 +133,7 @@ public class LogicalAgent {
 
             while (!isValidEmail(answer) || emailSearch(answer)) {
                 System.out.println(ConsoleColors.RED_BOLD_BRIGHT + "invalid email address or email already exists!" + "\n" + "try again" + ConsoleColors.RESET);
+                logger.error("user typed a the email with invalid pattern or wanted to enter a taken email");
                 answer = userAns(scanner);
             }
 
@@ -134,6 +141,7 @@ public class LogicalAgent {
             User user = new User(firstname, lastname, username, email, password);
             System.out.println(ConsoleColors.BLUE_BOLD_BRIGHT + "Account Created Successfully!" + ConsoleColors.RESET);
 
+            logger.info("user "+ user.getId() + " registered with username " + user.getUserName() + " and email " + user.getEmail());
 
             Menu.setScanner(scanner);
             Menu.setUser(user);
@@ -150,6 +158,7 @@ public class LogicalAgent {
         String s = scanner.nextLine();
         if (s.equals("exit")) {
             System.out.println("bye!");
+            logger.info("user " + " closed the app");
             System.exit(0);
         }
         return s;

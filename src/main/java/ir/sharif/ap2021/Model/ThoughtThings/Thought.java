@@ -5,6 +5,8 @@ import com.google.gson.GsonBuilder;
 import ir.sharif.ap2021.Model.UserThings.User;
 import ir.sharif.ap2021.View.ConsoleColors;
 import org.apache.commons.io.FileUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -26,6 +28,7 @@ public class Thought {
     private ArrayList<Integer> opinions;
     private ArrayList<Integer> likers;
     private ArrayList<Integer> rethoughters;
+    protected static final Logger logger = LogManager.getLogger(User.class);
 
     protected LocalDateTime localDateTime;
     private long rethought;
@@ -176,6 +179,7 @@ public class Thought {
         }
     }
 
+
     public Thought loadThought() {
 
         File ThoughtFile = new File("./THOUGHTS/" + id + ".txt");
@@ -190,6 +194,7 @@ public class Thought {
         Gson gson = new Gson();
         Thought thought = gson.fromJson(str, Thought.class);
 
+        logger.info("thought" + id + "loaded from a json file");
         return thought;
 
     }
@@ -210,6 +215,7 @@ public class Thought {
             e.printStackTrace();
         }
 
+        logger.info("thought" + id + "saved as a json file");
     }
 
     public static User findUser(int ID) {
@@ -230,6 +236,7 @@ public class Thought {
             User fUser = gson.fromJson(str, User.class);
 
             if (fUser.getId() == ID) {
+                logger.info("user " + fUser.getId() + " file founded and opened ");
                 return fUser;
             }
 
