@@ -1,0 +1,9 @@
+[INFO ] 2021-03-18 20:36:20.810 [main] Client - App Started
+[INFO ] 2021-03-18 20:54:11.544 [main] Client - App Started
+[INFO ] 2021-03-18 20:54:52.936 [main] LogicalAgent - 122 logged in
+[INFO ] 2021-03-18 20:56:22.514 [main] Client - App Started
+[INFO ] 2021-03-18 20:56:31.884 [main] LogicalAgent - user 122 logged in
+[INFO ] 2021-03-18 20:56:41.331 [main] Client - App Started
+[ERROR] 2021-03-18 20:56:50.920 [main] LogicalAgent - user typed a taken username
+[ERROR] 2021-03-18 20:57:00.929 [main] LogicalAgent - user typed a the email with invalid pattern or wanted to enter a taken email
+[INFO ] 2021-03-18 20:57:06.910 [main] LogicalAgent - user 124 registered with username mamad and email mamad
