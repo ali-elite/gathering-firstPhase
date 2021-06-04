@@ -242,8 +242,8 @@ public class Followings extends Menu {
                 //this --> follower
 
                 if (user.getFollowings().contains(following.getId())) {
-                    user.getFollowings().remove(following.getId());
-                    following.getFollowers().remove(user.getId());
+                    user.getFollowings().remove((Integer)following.getId());
+                    following.getFollowers().remove((Integer)user.getId());
                     System.out.println(ConsoleColors.BLUE_BOLD_BRIGHT + "User unfollowed Successfully!" + ConsoleColors.RESET);
 
                     following.getSystemMessages().add(new SystemMessage(following, user.getUserName() + " unfollowed you!"));

@@ -63,7 +63,7 @@ public class PersonalChat extends Menu {
 
 
                 user.getChatScreens().get(user.getChatScreens().indexOf(chS)).getChats().add(chat);
-                secondUser.getChatScreens().get(secondUser.getChatScreens().indexOf(chS)).getChats().add(chat);
+                secondUser.getChatScreens().get(user.getChatScreens().indexOf(chS)).getChats().add(chat);
 
 
                 System.out.println(ConsoleColors.BLUE_BOLD_BRIGHT + "Message Sent Successfully!" + ConsoleColors.RESET);
